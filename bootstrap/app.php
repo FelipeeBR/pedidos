@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,5 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function(AuthenticationException $exception) {
+            return response()->json([
+                'status' => false,
+                'message' => "Não autorizado",
+            ], 401);
+        });
     })->create();
