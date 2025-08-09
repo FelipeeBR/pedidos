@@ -23,8 +23,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'error' => 'Erro ao buscar usuários',
-                'message' => $e->getMessage()
+                'message' => 'Erro ao buscar usuários: '. $e->getMessage(),
             ], 500);
         }
         
@@ -40,8 +39,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'error' => 'Erro ao buscar usuário',
-                'message' => $e->getMessage()
+                'message' => 'Erro ao buscar usuário: '. $e->getMessage(),
             ], 500);
         }
     }
@@ -61,8 +59,7 @@ class UserController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'error' => 'Erro ao criar usuário',
-                'message' => $e->getMessage()
+                'message' => 'Erro ao criar usuário: '.$e->getMessage(),
             ], 400);
         }
     }
