@@ -47,4 +47,26 @@ class OrderController extends Controller
             ], 400);
         }
     }
+
+    public function show(Order $order): JsonResponse {
+        try {
+            $user = auth('api')->user();
+            if($order->user_id !== $user->id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Pedido pertence a outro usuário',
+                ], 403);
+            }
+            return response()->json([
+                'version' => 'v1',
+                'status' => true,
+                'order' => $order
+            ], 200);
+        } catch(Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Erro ao buscar pedido: '.$e->getMessage(),
+            ], 500);
+        }
+    }
 }
