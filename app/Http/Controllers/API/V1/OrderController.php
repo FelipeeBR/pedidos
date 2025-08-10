@@ -28,7 +28,7 @@ class OrderController extends Controller
         }
     }
 
-    public function store(Request $request) {
+    public function store(Request $request): JsonResponse {
         DB::beginTransaction();
         try {
             $order = Order::create($request->all());
@@ -66,6 +66,56 @@ class OrderController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Erro ao buscar pedido: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, Order $order): JsonResponse {
+        DB::beginTransaction();
+        try {
+            $user = auth('api')->user();
+            if($order->user_id !== $user->id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Erro ao atualizar pedido',
+                ], 403);
+            }
+            $order->update($request->all());
+            DB::commit();
+            return response()->json([
+                'version' => 'v1',
+                'status' => true,
+                'order' => $order,
+                'message' => 'Pedido atualizado com sucesso'
+            ], 200);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Erro ao atualizar pedido: '.$e->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function destroy(Order $order): JsonResponse {
+        try {
+            $user = auth('api')->user();
+            if($order->user_id !== $user->id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Erro ao deletar pedido',
+                ], 403);
+            }
+            $order->delete();
+            return response()->json([
+                'version' => 'v1',
+                'status' => true,
+                'message' => 'Pedido excluido com sucesso'
+            ], 200);
+        } catch(Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Erro ao excluir pedido: '.$e->getMessage(),
             ], 500);
         }
     }
