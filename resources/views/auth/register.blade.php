@@ -11,6 +11,7 @@
                     <h4 class="card-title text-center mb-0">Criar conta</h4>
                 </div>
                 <div class="card-body p-4">
+                    <form id="register-form" method="POST">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nome:</label>
                             <input id="name" type="text" class="form-control" name="name"  required autofocus>
@@ -19,23 +20,29 @@
                             <label for="email" class="form-label">E-mail:</label>
                             <input id="email" type="email" class="form-control" name="email"  required autofocus>
                         </div>
-
+    
                         <div class="mb-3">
                             <label for="password" class="form-label">Senha:</label>
                             <input id="password" type="password" class="form-control" name="password" required>
                         </div>
-
+    
                         <div class="mb-3">
                             <label for="confirm-password" class="form-label">Confirmar Senha:</label>
                             <input id="confirm-password" type="password" class="form-control" name="confirm-password" required>
                         </div>
-
+    
                         <div class="d-grid gap-2 mt-4">
-                            <button type="button" id="btn-register" class="btn btn-primary py-2">
-                                <i class="bi bi-box-arrow-in-right me-2"></i> Criar conta
+                            <button type="submit" id="btn-register" class="btn btn-primary py-2">
+                                <span id="register-text">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i> Criar conta
+                                </span>
+                                <span id="register-spinner" class="d-none">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Carregando...
+                                </span>
                             </button>
                         </div>
-
+    
                         <div class="text-center mt-4">
                             <a href="{{ route('login') }}" class="text-decoration-none">Entrar na minha conta</a>
                         </div>
@@ -49,20 +56,31 @@
 
 @section('scripts')
     <script>
-        document.getElementById('btn-register').addEventListener('click', async function () {
+        document.getElementById('register-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
             
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const confirmPassword = document.getElementById('confirm-password').value.trim();
 
+            document.getElementById('register-text').classList.add('d-none');
+            document.getElementById('register-spinner').classList.remove('d-none');
+            document.getElementById('btn-register').disabled = true;
+
             if(!email || !password || !confirmPassword) {
                 alert('Preencha todos os campos.');
+                document.getElementById('register-text').classList.remove('d-none');
+                document.getElementById('register-spinner').classList.add('d-none');
+                document.getElementById('btn-register').disabled = false;
                 return;
             }
 
             if(password !== confirmPassword) {
                 alert('As senhas não são identicas.');
+                document.getElementById('register-text').classList.remove('d-none');
+                document.getElementById('register-spinner').classList.add('d-none');
+                document.getElementById('btn-register').disabled = false;
                 return;
             }
 
@@ -91,6 +109,10 @@
                 }
             } catch (error) {
                 alert('Erro na comunicação com o servidor');
+            } finally {
+                document.getElementById('register-text').classList.remove('d-none');
+                document.getElementById('register-spinner').classList.add('d-none');
+                document.getElementById('btn-register').disabled = false;
             }
         });
     </script>
