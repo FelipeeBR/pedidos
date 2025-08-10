@@ -23,6 +23,6 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 });
 
-Route::middleware('auth:sanctum')->get('/dashboard', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

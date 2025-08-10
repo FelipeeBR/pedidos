@@ -20,7 +20,7 @@
         }
 
         try {
-            const response = await fetch('/api/dashboard', {
+            const response = await fetch('/api/user', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json'
