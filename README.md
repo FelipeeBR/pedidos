@@ -25,28 +25,6 @@ E aplique as migrations com:
 sail artisan migrate
 ```
 ## Acesse: http://localhost:80
-## Testes na API:
-
-#### POST /users
-- Criar um novo usuario:
-    - /api/v1/users
-```
-{
-  "name": "Pedro",
-  "email": "pedro@example.com",
-  "password": "senha123"
-}
-```
-- Fazer login de usuario:
-    - /api/v1/login
-```
-{
-  "email": "pedro@example.com",
-  "password": "senha123"
-}
-```
-
-Coloque o token no Bearer Token (caso queira testar no Insomnia / Postman)
 
 ### Rotas da API pedido (caso queira testar no Insomnia / Postman):
 
