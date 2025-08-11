@@ -3,51 +3,54 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div id="app">
-    <h1>Dashboard</h1>
-    <div id="user-info"></div>
-    <button id="logoutBtn" class="btn btn-danger">Sair</button>
-</div>
-@endsection
+    <div>
+        <nav class="navbar text-white bg-primary">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <span class="mb-0 h1">Pedidos</span>
 
-@section('scripts')
-<script>
-    async function fetchUserInfo() {
-        const token = localStorage.getItem('token');
-        if(!token) {
-            window.location.href = '/login';
-            return;
-        }
+                <div>
+                    Bem-vindo, {{ auth()->user()->name }} ({{ auth()->user()->email }})
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline ms-3">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
 
-        try {
-            const response = await fetch('/api/user', {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json'
-                }
-            });
+        @if(session('error'))
+            <div class="alert alert-danger text-center">
+                {{ session('error') }}
+            </div>
+        @endif
 
-            if(response.status === 401) {
-                localStorage.removeItem('token');
-                window.location.href = '/login';
-                return;
-            }
-
-            const data = await response.json();
-
-            document.getElementById('user-info').textContent = 
-                `Bem vindo, ${data.name} (${data.email})`;
-
-        } catch (error) {
-            console.error('Erro ao buscar dados do usuário:', error);
-        }
-    }
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-    });
-
-    fetchUserInfo();
-</script>
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome do Cliente</th>
+                        <th>Data de Criação</th>
+                        <th>Data de Entrega</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($orders as $order)
+                        <tr>
+                            <td>{{ $order['id'] }}</td>
+                            <td>{{ $order['customer_name'] }}</td>
+                            <td>{{ $order['order_date'] }}</td>
+                            <td>{{ $order['delivery_date'] }}</td>
+                            <td>{{ $order['status'] }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Nenhum pedido encontrado.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection

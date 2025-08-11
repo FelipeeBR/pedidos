@@ -35,10 +35,8 @@
         </header>
     @endif
 
-    <main class="flex-shrink-0 py-4">
-        <div class="container">
-            @yield('content')
-        </div>
+    <main class="">
+        @yield('content')
     </main>
 
     <footer class="footer mt-auto py-3 bg-white border-top">

@@ -11,30 +11,28 @@
                     <h4 class="card-title text-center mb-0">Login</h4>
                 </div>
                 <div class="card-body p-4">
-                     <form id="login-form" method="POST">
+                     <form method="POST" action="{{ route('login') }}">
+                        @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail:</label>
-                            <input id="email" type="email" class="form-control" name="email" required autofocus>
-                            <div id="email-error" class="invalid-feedback"></div>
+                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                            @error('email')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="password" class="form-label">Senha:</label>
                             <input id="password" type="password" class="form-control" name="password" required>
-                            <div id="password-error" class="invalid-feedback"></div>
+                            @error('password')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
                         </div>
+
                         <div class="d-grid gap-2 mt-4">
-                            <button type="submit" id="btn-login" class="btn btn-primary py-2">
-                                <span id="login-text">
-                                    <i class="bi bi-box-arrow-in-right me-2"></i> Login
-                                </span>
-                                <span id="login-spinner" class="d-none">
-                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                    Carregando...
-                                </span>
+                            <button type="submit" class="btn btn-primary py-2">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Login
                             </button>
-                        </div>
-                        <div class="text-center mt-4">
-                            <a href="{{ route('register') }}" class="text-decoration-none">Crie uma conta</a>
                         </div>
                     </form>
                 </div>
@@ -42,59 +40,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    document.getElementById('login-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        document.getElementById('email-error').textContent = '';
-        document.getElementById('password-error').textContent = '';
-
-        document.getElementById('login-text').classList.add('d-none');
-        document.getElementById('login-spinner').classList.remove('d-none');
-        document.getElementById('btn-login').disabled = true;
-
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        if(!email || !password) {
-            alert('Preencha e-mail e senha.');
-            document.getElementById('login-text').classList.remove('d-none');
-            document.getElementById('login-spinner').classList.add('d-none');
-            document.getElementById('btn-login').disabled = false;
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/v1/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-
-            if(response.ok && data.status) {
-               
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-
-                window.location.href = '/dashboard';
-            } else {
-                alert(data.error || 'Falha no login');
-            }
-        } catch (error) {
-            alert('Erro na comunicação com o servidor');
-        } finally {
-        document.getElementById('login-text').classList.remove('d-none');
-        document.getElementById('login-spinner').classList.add('d-none');
-        document.getElementById('btn-login').disabled = false;
-    }
-    });
-</script>
 @endsection

@@ -11,7 +11,6 @@ Route::prefix('v1')->group(function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/users', [UserController::class, 'index']); 
         Route::get('/users/{user}', [UserController::class, 'show']);
-        Route::post('/logout/{user}', [LoginController::class, 'logout']);
 
         Route::get('/orders', [OrderController::class, 'index']);
         Route::get('/orders/{order}', [OrderController::class, 'show']);
@@ -20,7 +19,6 @@ Route::prefix('v1')->group(function () {
         Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
     });
     Route::post('/users', [UserController::class, 'store']);
-    Route::post('/login', [LoginController::class, 'login'])->name('login');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
