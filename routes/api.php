@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\V1\LoginController;
 use App\Http\Controllers\API\V1\OrderController;
 use App\Http\Controllers\API\V1\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,9 +16,6 @@ Route::prefix('v1')->group(function () {
         Route::put('/orders/{order}', [OrderController::class, 'update']);
         Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
     });
+    Route::post('/login', [UserController::class, 'login']);
     Route::post('/users', [UserController::class, 'store']);
-});
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
 });

@@ -8,6 +8,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -61,6 +63,25 @@ class UserController extends Controller
                 'status' => false,
                 'message' => 'Erro ao criar usuário: '.$e->getMessage(),
             ], 400);
+        }
+    }
+
+    public function login(Request $request) {
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+
+            $token = $request->user()->createToken('token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'user' => $user,
+                'token' => $token
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'error' => 'Usuário ou senha inválidos',
+            ], 404);
         }
     }
 }
