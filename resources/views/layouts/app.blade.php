@@ -39,19 +39,6 @@
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto py-3 bg-white border-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. Todos os direitos reservados.
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    @stack('footer-links')
-                </div>
-            </div>
-        </div>
-    </footer>
-
     @yield('scripts')
 </body>
 </html>
