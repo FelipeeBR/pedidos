@@ -7,13 +7,21 @@ Clonar o repositorio:
 ```
 https://github.com/FelipeeBR/pedidos.git
 ```
-No wsl, crie um atalho para os comandos sail:
+No wsl, na raiz do projeto crie um atalho para os comandos sail:
 
 ```
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail' 
 ```
 
 Copie os dados do env.example para o .env
+
+Abra o terminal: e navegue até a pasta raiz do projeto Laravel.
+
+Execute o comando: 
+
+```
+sail artisan key:generate
+```
 
 Utilize o comando para criar os conteiners em segundo plano:
 
