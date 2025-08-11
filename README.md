@@ -1,6 +1,6 @@
 # Desafio para desenvolvedor na Softsul Sistemas
 
-## Nome: Felipe Mendes Neves
+## Candidato: Felipe Mendes Neves
 
 ### Instruções:
 Clonar o repositorio: 
