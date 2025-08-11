@@ -20,5 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::put('/dashboard/orders/{order}', [DashboardController::class, 'updateOrder'])->name('dashboard.orders.update');
+    Route::post('/dashboard/orders', [DashboardController::class, 'storeOrder'])->name('dashboard.orders.store');
+    Route::delete('/dashboard/orders/{order}', [DashboardController::class, 'destroy'])->name('dashboard.orders.destroy');
+});
+
 
