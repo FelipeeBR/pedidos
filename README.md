@@ -13,6 +13,8 @@ No wsl, crie um atalho para os comandos sail:
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail' 
 ```
 
+Copie os dados do env.example para o .env
+
 Utilize o comando para criar os conteiners em segundo plano:
 
 ```
