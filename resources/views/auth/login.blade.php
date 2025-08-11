@@ -35,6 +35,9 @@
                             </button>
                         </div>
                     </form>
+                    <div>
+                        <a href="{{ route('register') }}" class="btn btn-link">Criar uma conta</a>
+                    </div>
                 </div>
             </div>
         </div>
