@@ -1,6 +1,5 @@
-# Desafio para desenvolvedor na Softsul Sistemas
+# Projeto Laravel Pedidos
 
-## Candidato: Felipe Mendes Neves
 
 ### Instruções:
 Clonar o repositorio: 
@@ -150,9 +149,6 @@ Coloque o token no Bearer Token (caso queira testar no Insomnia / Postman)
     "message": "Pedido excluido com sucesso"
 }
 ```
-
-## Aplicativo React Native Infuncional (incompleto)
-Repositorio: https://github.com/FelipeeBR/app-pedidos
 
 ## Imagens
 ![Captura de tela 2025-08-11 003939](https://github.com/user-attachments/assets/ac3cbb8a-df6d-4352-9d61-5ac290d24fe4)![Captura de tela 2025-08-11 004010](https://github.com/user-attachments/assets/a4b56660-797f-4339-906a-1302215dc4a2)
